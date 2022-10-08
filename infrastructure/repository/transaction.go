@@ -2,11 +2,24 @@ package repository
 
 import (
 	"database/sql"
+	"errors"
 	"github.com/Cerebrovinny/bank-full-cycle/domain"
 )
 
 type TransactionRepositoryDb struct {
 	db *sql.DB
+}
+
+func (t *TransactionRepositoryDb) GetCreditCard(creditCard domain.CreditCard) (domain.CreditCard, error) {
+	var c domain.CreditCard
+	stmt, err := t.db.Prepare("select id, balance, balance_limit from credit_cards WHERE number=$1")
+	if err != nil {
+		return c, err
+	}
+	if err = stmt.QueryRow(creditCard.Number).Scan(&c.ID, &c.Balance, &c.Limit); err != nil {
+		return c, errors.New("credit card does not exists")
+	}
+	return c, nil
 }
 
 func NewTransactionRepositoryDb(db *sql.DB) *TransactionRepositoryDb {
