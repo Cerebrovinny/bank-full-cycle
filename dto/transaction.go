@@ -12,5 +12,5 @@ type Transaction struct {
 	Amount          float64
 	Store           string
 	Description     string
-	CreatedAt       time.time
+	CreatedAt       time.Time
 }
