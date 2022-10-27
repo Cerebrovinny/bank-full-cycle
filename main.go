@@ -47,7 +47,7 @@ func setupDb() *sql.DB {
 
 	db, err := sql.Open("postgres", psqlInfo)
 	if err != nil {
-		log.Fatal("error connection to detabase")
+		log.Fatal("error connection to database")
 	}
 
 	return db
